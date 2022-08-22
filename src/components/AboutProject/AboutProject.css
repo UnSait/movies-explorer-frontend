@@ -1,0 +1,140 @@
+.about-project {
+  width: 1140px;
+  height: 608px;
+  margin: auto;
+}
+
+.about-project__title {
+  margin-top: 110px;
+}
+
+.about-project__info {
+  display: flex;
+  margin-top: 70px;
+}
+
+.about-project__info-title {
+  font-size: 20px;
+}
+
+.about-project__info-description {
+  margin-top: 26px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.about-project__tracker {
+  display: flex;
+  text-align: center;
+  margin-top: 110px;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+.about-project__tracker:last-child {
+  margin-top: 14px;
+  font-weight: 500;
+  color: #8B8B8B;
+  line-height: 0;
+}
+
+.about-project__tracker-progress:first-child {
+  width: 228px;
+  height: 36px;
+  color: black;
+  background: #3DDC84;
+}
+
+.about-project__tracker-progress:last-child {
+  width: 912px;
+  height: 36px;
+  background: #303030;
+}
+
+.about-project__tracker-technology:first-child {
+  width: 228px;
+}
+
+.about-project__tracker-technology:last-child {
+  width: 912px;
+}
+
+@media screen and (max-width: 1280px) {
+  .about-project {
+    width: 668px;
+    height: 585px;
+  }
+
+  .about-project__title {
+    margin-top: 90px;
+  }
+
+  .about-project__info-description {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .about-project__tracker-technology:first-child {
+    width: 140px;
+  }
+
+  .about-project__tracker-technology:last-child {
+    width: 528px;
+  }
+
+  .about-project__tracker-progress:first-child {
+    width: 140px;
+  }
+
+  .about-project__tracker-progress:last-child {
+    width: 528px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about-project {
+    width: 284px;
+    height: 641px;
+  }
+
+  .about-project__title {
+    margin-top: 70px;
+  }
+
+  .about-project__info-title {
+    font-size: 18px;
+    margin-top: 60px;
+  }
+
+  .about-project__info-description {
+    font-size: 11px;
+    line-height: 16px;
+    margin-top: 16px;
+  }
+
+  .about-project__tracker {
+    font-size: 11px;
+  }
+
+  .about-project__info {
+    flex-direction: column;
+    margin-top: 0;
+  }
+
+  .about-project__tracker-technology:first-child {
+    width: 100px;
+  }
+
+  .about-project__tracker-technology:last-child {
+    width: 184px;
+  }
+
+  .about-project__tracker-progress:first-child {
+    width: 100px;
+  }
+
+  .about-project__tracker-progress:last-child {
+    width: 184px;
+  }
+}
+

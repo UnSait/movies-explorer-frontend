@@ -1,0 +1,56 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/fonts.css);
+
+
+html {
+  height: 100vh;
+  background: #202020;
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+  transition: 0.5s;
+}
+
+input {
+  background: none;
+  border: none;
+}
+
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  opacity: 0.7;
+  transition: 0.5s;
+}
+
+li {
+  list-style: none;
+}
+
+
+h1, h2, h3, p, li, ul {
+  margin: 0;
+}
+
+h1, h2, h3 {
+  font-weight: 400;
+}
+
+button, input, ul, li  {
+  padding: 0;
+}
+
+
+
