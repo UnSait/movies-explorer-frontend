@@ -1,0 +1,141 @@
+.search-form {
+  margin-top: 70px;
+}
+
+.search-form__input-container {
+  width: 1140px;
+  height: 72px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  border: 1.5px solid rgba(170, 170, 170, 0.2);
+  border-radius: 8px;
+}
+
+.search-form__input {
+  height: 52px;
+  width: 1000px;
+  margin-left: 25px;
+  margin-right: 5px;
+  color: #8B8B8B;
+  font-size: 18px;
+}
+
+.search-form__btn {
+  width: 100px;
+  height: 52px;
+  margin-right: 10px;
+  color: white;
+  background: #4285F4;
+  border-radius: 5px;
+}
+
+.search-form__filter-сheckbox-container {
+  width: 1140px;
+  margin: auto;
+  margin-top: 26px;
+}
+
+.search-form__filter-сheckbox-label {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.search-form__filter-сheckbox {
+  display: none;
+}
+
+.search-form__filter-сheckbox:checked ~ .search-form__filter-сheckbox-checker{
+  background: #2BE080;
+}
+
+.search-form__filter-сheckbox:checked + .search-form__filter-сheckbox-tumbler{
+   background: white;
+   transform: translateX(235%);
+}
+
+.search-form__filter-сheckbox-checker {
+  width: 36px;
+  height: 20px;
+  background: #343434;
+  border-radius: 20px;
+  z-index: 1;
+  margin-right: 20px;
+}
+
+.search-form__filter-сheckbox-tumbler {
+  width: 8px;
+  height: 8px;
+  background-color: #A0A0A0;
+  border-radius: 50%;
+  z-index: 2;
+  position: absolute;
+  left: 5px;
+  transition: transform 0.5s;
+}
+
+.search-form__line {
+  width: 1140px;
+  margin: auto;
+  margin-top: 43px;
+  border-bottom: 1px solid #AAAAAA;
+  opacity: 0.2;
+}
+
+@media screen and (max-width: 1280px) {
+  .search-form__input-container {
+    width: 705px;
+    height: 72px;
+  }
+
+  .search-form__input {
+    height: 52px;
+    width: 568px;
+  }
+
+  .search-form__filter-сheckbox-container {
+    width: 708px;
+  }
+
+  .search-form__line {
+    width: 708px;
+    margin-top: 51px;
+  }
+
+}
+
+@media screen and (max-width: 768px) {
+  .search-form__input-container {
+    width: 292px;
+    height: 56px;
+  }
+
+  .search-form__input {
+    height: 40px;
+    width: 194px;
+    margin-left: 12px;
+  }
+
+  .search-form__btn {
+    width: 80px;
+    height: 44px;
+    margin-right: 6px;
+  }
+
+  .search-form__filter-сheckbox-container {
+    width: 292px;
+
+  }
+
+  .search-form__line {
+    width: 292px;
+    margin-top: 63px;
+  }
+
+  .search-form__filter-сheckbox-label {
+    font-size: 11px;
+  }
+}

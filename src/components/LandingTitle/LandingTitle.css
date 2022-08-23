@@ -1,0 +1,12 @@
+.landing-title {
+  height: 50px;
+  border-bottom: 1px solid #DADADA;
+  font-size: 22px;
+}
+
+@media screen and (max-width: 768px) {
+  .landing-title {
+    font-size: 18px;
+  }
+}
+
