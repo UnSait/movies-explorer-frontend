@@ -3,24 +3,17 @@ import saveBtn from '../../images/save6d.svg'
 import deleteBtn from '../../images/d6.svg'
 
 
-function MoviesCard({ movies, path, userId}) {
+function MoviesCard({ movies, path, save, liked, deleteMovie}) {
 
-  let isSaved = movies.owner === userId;
-  const isMoviesPath = path === "movies";
-  const isSavedMoviesPath = path === "saved-movies";
+  const isMoviesPath = path === "/movies";
+  const isSavedMoviesPath = path === "/saved-movies";
 
-  let button;
+  function handlerSaveBtnClick() {
+    save(movies);
+  }
 
-  if (isMoviesPath) {
-    if (isSaved) {
-      button = <img className="movies-card-list__save-btn" src={saveBtn} alt="Сохранено" />
-    } if (!isSaved) {
-      button = <button className="movies-card-list__save-btn" type="button">
-      Сохранить
-      </button>;
-    }
-  } if (isSavedMoviesPath) {
-    button = <img className="movies-card-list__save-btn" src={deleteBtn} alt="Удалить" />;
+  function handlerDeleteBtnClick(movie) {
+    deleteMovie(movie);
   }
 
   return (
@@ -29,9 +22,25 @@ function MoviesCard({ movies, path, userId}) {
         <p className="movies-card-list__name">{movies.nameRU}</p>
         <p className="movies-card-list__duration">{movies.duration} минут</p>
       </div>
-      <img className="movies-card-list__fragment" src={movies.image} alt={movies.nameRU} />
+      <a className="movies-card-list__trailer-link" href={movies.trailerLink} target="_blank" rel="noreferrer">
+        {isMoviesPath ?
+        <img className="movies-card-list__fragment" src={`https://api.nomoreparties.co/${movies.image.url}`} alt={movies.nameRU} />
+        :
+        <img className="movies-card-list__fragment" src={movies.image} alt={movies.nameRU} />
+        }
+        </a>
       <div className="movies-card-list__btn-container">
-        {button}
+        {!liked(movies.id) && isMoviesPath &&
+        <button className="movies-card-list__save-btn" type="button" onClick={handlerSaveBtnClick}>
+        Сохранить
+        </button>
+        }
+        {liked(movies.id) && isMoviesPath &&
+        <img className="movies-card-list__save-btn" src={saveBtn} onClick={() => handlerDeleteBtnClick(movies.id)} alt="Сохранено" />
+        }
+        {isSavedMoviesPath &&
+        <img className="movies-card-list__save-btn" src={deleteBtn} onClick={() => handlerDeleteBtnClick(movies._id)} alt="Удалить" />
+        }
       </div>
     </li>
   );

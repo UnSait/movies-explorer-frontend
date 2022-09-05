@@ -9,23 +9,6 @@
   position: relative;
 }
 
-.overlay {
-  padding-top: 131px;
-  width: 708px;
-  height: 100vh;
-  background: #000000;
-  opacity: 0.3;
-  position: absolute;
-  top:0;
-  left: 0;
-  z-index: 3;
-  visibility: hidden;
-}
-
-.overlay_active {
-  visibility: visible;
-}
-
 .header-auth {
   font-size: 12px;
 }
@@ -58,6 +41,17 @@
   margin-right: 16px;
 }
 
+.header__menu-btn {
+  cursor: pointer;
+  transition: 0.5s;
+  display: none;
+}
+
+.header__menu-btn:hover {
+  opacity: 0.8;
+  transition: 0.5s;
+}
+
 .active-link {
   font-weight: 500;
 }
@@ -65,10 +59,6 @@
 .header__account-container {
   display: flex;
   align-items: center;
-}
-
-.header__account{
-  font-weight: 500;
 }
 
 .header__account-button {
@@ -80,86 +70,7 @@
   background-repeat: no-repeat;
   background-position: center;
   margin-left: 13px;
-}
-
-.header__menu {
-  visibility: hidden;
-}
-
-.header__menu-container {
-  display: block;
-  width: 248px;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-  background: #202020;
-  padding-top: 131px;
-  text-align: center;
-}
-
-.header__menu-link {
-  margin-top: 28px;
-  font-size: 18px;
-  line-height: 22px;
-}
-
-.active-menu-link {
-  text-decoration: underline 2px ;
-}
-
-.header__menu-account-container {
-  width: 100px;
-  margin: auto;
-  margin-top: 620px;
-  display: flex;
-  align-items: center;
-  transition: 0s;
-}
-
-.header__btn > span,
-.header__btn > span::before,
-.header__btn > span::after {
-  display: block;
-  position: absolute;
-  right: 0;
-  width: 28px;
-  height: 3px;
-  background-color: white;
-  transition-duration: .25s;
-  z-index: 10000;
   cursor: pointer;
-}
-
-.header__btn > span::before {
-  content: '';
-  top: -8px;
-}
-
-.header__btn > span::after {
-  content: '';
-  top: 8px;
-}
-
-.header__toggle:checked ~ .header__btn > span {
-  transform: rotate(45deg);
-  width: 22px;
-}
-.header__toggle:checked ~ .header__btn > span::before {
-  top: 0;
-  transform: rotate(0);
-}
-.header__toggle:checked ~ .header__btn > span::after {
-  top: 0;
-  transform: rotate(90deg);
-}
-.header__toggle:checked ~ .header__menu  {
-  visibility: visible;
-}
-
-.header__menu, .header__btn, .header__toggle  {
-  display: none;
 }
 
 @media screen and (max-width: 1280px) {
@@ -175,7 +86,7 @@
     display: none;
   }
 
-  .header__menu, .header__btn, .header__menu-link {
+  .header__menu-btn {
     display: block;
   }
 }
@@ -196,9 +107,5 @@
   .header__menu-container {
     width: 320px;
     padding-top: 144px;
-  }
-
-  .overlay {
-    width: 0;
   }
 }

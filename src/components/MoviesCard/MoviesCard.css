@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   width: 360px;
-  height: 319px;
+  min-height: 319px;
   background: #222222;
   border-radius: 6px;
 }
@@ -19,7 +19,16 @@
 
 .movies-card-list__name {
   font-weight: 500;
+  width: 250px;
   font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.movies-card-list__name:hover {
+  overflow: visible;
+  white-space: normal;
 }
 
 .movies-card-list__duration {
@@ -58,7 +67,11 @@
 @media screen and (max-width: 1280px) {
   .movies-card-list__card-container {
     width: 342px;
-    height: 309px;
+    min-height: 309px;
+  }
+
+  .movies-card-list__name {
+    width: 230px;
   }
 
   .movies-card-list__fragment {
@@ -74,7 +87,11 @@
 @media screen and (max-width: 768px) {
   .movies-card-list__card-container {
     width: 300px;
-    height: 271px;
+    min-height: 271px;
+  }
+
+  .movies-card-list__name {
+    width: 200px;
   }
 
   .movies-card-list__duration {
