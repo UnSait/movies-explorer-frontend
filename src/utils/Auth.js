@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.moviesearch.nomoredomains.sbs';
+export const BASE_URL = 'https://api.moviesearch.nomoredomains.sbs';
 
 const checkResponse = (res) => {
   if (res.ok) {
