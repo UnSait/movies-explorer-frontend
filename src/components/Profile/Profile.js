@@ -17,29 +17,37 @@ function Profile({signout, onEdit, errorCode, handlerErrors}) {
   const [nameDirty, setNameDirty] = useState(false);
   const [emailDirty, setEmailDirty] = useState(false);
 
-  const [nameError, setNameError] = useState("Заполните пустое поле");
-  const [emailError, setEmailError] = useState("Заполните пустое поле");
+  const [nameError, setNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
 
   const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
+    setName(currentUser.name);
+    setEmail(currentUser.email);
+  }, [currentUser])
+
+  useEffect(() => {
     //Если есть ошибка либо переданные данные совпадают с текущими - форма не валидна
-    if (emailError || nameError || (name === currentUser.name && email === currentUser.email)) {
-      setFormValid(false)
+    if (emailError || nameError) {
+      setFormValid(false);
+    } else if (name === currentUser.name && email === currentUser.email) {
+      setFormValid(false);
     } else {
       setFormValid(true)
     }
-  }, [emailError, nameError, name, email])
+  }, [emailError, nameError, name, email, currentUser])
 
   const nameHandler = (e) => {
     setName(e.target.value);
+    console.log(e.target.value)
     if (!regUser.test(String(e.target.value).toLowerCase())) {
       setNameError("Имя должно быть не менее 2 символов и не содержать спецсимволов");
       if (!e.target.value) {
         setNameError("Заполните пустое поле");
       }
     } else {
-      setNameError("");
+      setNameError(null);
     }
   };
 
@@ -51,7 +59,7 @@ function Profile({signout, onEdit, errorCode, handlerErrors}) {
         setEmailError("Заполните пустое поле")
       }
     } else {
-      setEmailError("")
+      setEmailError(null)
     }
   }
 
@@ -83,7 +91,7 @@ function Profile({signout, onEdit, errorCode, handlerErrors}) {
       <ul className="profile-form__inputs-container">
         <li className="profile-form__input-container">
           <h3 className="profile-form__input-title">Имя</h3>
-          <input onBlur={e => blurHandler(e)} value={name} name="name" onChange={e => nameHandler(e)} className="profile-form__input" type="text" placeholder={currentUser.name} required/>
+          <input onBlur={e => blurHandler(e)} value={name} name="name" onChange={e => nameHandler(e)} className="profile-form__input" type="text" required />
         </li>
         {
           (nameDirty && nameError)
@@ -93,7 +101,7 @@ function Profile({signout, onEdit, errorCode, handlerErrors}) {
         <div className="profile-form__input-line"></div>
         <li className="profile-form__input-container">
           <h3 className="profile-form__input-title">E-mail</h3>
-          <input onBlur={e => blurHandler(e)} value={email} name="email" onChange={e => emailHandler(e)} className="profile-form__input" type="email" placeholder={currentUser.email} required/>
+          <input onBlur={e => blurHandler(e)} value={email} name="email" onChange={e => emailHandler(e)} className="profile-form__input" type="email" required />
         </li>
         {
           (emailDirty && emailError)

@@ -25,7 +25,7 @@ function App() {
   //Токен
   const [token, setToken] = useState(localStorage.jwt);
   //Вход в систему
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState();
   //Текущий пользователь
   const [currentUser, setCurrentUser] = useState({});
   //Все фильмы с beatfilm-movies
@@ -70,6 +70,9 @@ function App() {
           setErrorCode("");
           setLoading(false);
           setError(false);
+          if (localStorage.getItem("reqFilms")) {
+            setRequiredFilms(JSON.parse(localStorage.getItem("reqFilms")));
+          }
         })
         .catch((err) => {
           console.log("Не удалось загрузить:", err);
@@ -79,6 +82,8 @@ function App() {
         .finally(() => {
           setLoading(false);
         })
+    } else {
+      setLoggedIn(false);
     }
   }, [loggedIn]);
 
@@ -119,12 +124,12 @@ function App() {
       .then(() => {
         //Изменяем стейт на "Вошел в систему"
         setLoggedIn(true);
-        //Редиректим на страницу с фильмами
-        history.push("/movies");
       })
       .catch(() => {
         //Редиректим на общую страницу
         history.push("/");
+        //Изменяем стейт на "Вышел из системы"
+        setLoggedIn(false);
         console.log("Необходимо авторизоваться");
       });
   }
@@ -133,10 +138,24 @@ function App() {
   const handlerSignupProfile = ({password, email, name}) => {
     auth.signup({password, email, name})
     .then(() => {
-      //Редиректим на страницу авторизации
-      history.push("/signin")
-      //Обнуляем код ошибки
-      setErrorCode("");
+      auth.signin({password, email})
+      .then((res) => {
+        //Изменяем стейт на "Вошел в систему"
+        setLoggedIn(true);
+        //Добавляем токе в хранилище
+        localStorage.setItem('jwt', res.token);
+        //Добавляем токен в стейт
+        setToken(res.token);
+        //Обнуляем код ошибки
+        setErrorCode("");
+        //Редиректим на страницу с фильмами
+        history.push("/movies");
+      })
+      .catch((err) => {
+        console.log("Не удалось выполнить:", err);
+        ///Изменяем стейт кода ошибки
+        setErrorCode(err);
+      });
     })
     .catch((err) => {
       console.log("Не удалось выполнить:", err);
@@ -149,12 +168,12 @@ function App() {
   const handlerSigninProfile = ({password, email}) => {
     auth.signin({password, email})
     .then((res) => {
+      //Изменяем стейт на "Вошел в систему"
+      setLoggedIn(true);
       //Добавляем токе в хранилище
       localStorage.setItem('jwt', res.token);
       //Добавляем токен в стейт
       setToken(res.token);
-      //Изменяем стейт на "Вошел в систему"
-      setLoggedIn(true);
       //Редиректим на страницу с фильмами
       history.push("/movies");
       //Обнуляем код ошибки
@@ -173,6 +192,8 @@ function App() {
     setLoggedIn(false);
     //Очищаем хранилище токена
     localStorage.removeItem('jwt');
+    //Очищаем хранилище c результом поиска
+    localStorage.removeItem('reqFilms');
     //Очищаем стейт токена
     setToken('');
     //Редиректим на общую страницу
@@ -201,15 +222,17 @@ function App() {
   const handlerSearchMovies = ({textRequest, shortFilm}) => {
     if (shortFilm) {
       setRequiredFilms(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration <= 40))
+      localStorage.setItem("reqFilms", JSON.stringify(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration <= 40)))
     } else {
       setRequiredFilms(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration > 40))
+      localStorage.setItem("reqFilms", JSON.stringify(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration > 40)))
     }
   };
 
   //Обработчик поиска запрашиваемых сохраненных фильмов
   const handlerSearchSavedMovies = ({textRequest, shortFilm}) => {
     if (shortFilm) {
-      setRequiredSavedFilms(savedFilms.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration <= 40))
+      setRequiredSavedFilms(savedFilms.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration <= 40));
     } else {
       setRequiredSavedFilms(savedFilms.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration > 40))
     }
