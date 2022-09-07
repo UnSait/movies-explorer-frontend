@@ -1,11 +1,21 @@
 import './SearchForm.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function SearchForm({onSearching}) {
+function SearchForm({onSearching, path}) {
+
+  const isMoviesPath = path === "/movies";
 
   const [textRequest, setTextRequest] = useState("");
   const [shortFilm, setShortFilm] = useState(false);
 
+  useEffect(() => {
+    if (isMoviesPath && localStorage.getItem("reqFilms")) {
+      setTextRequest(localStorage.getItem("textQuery"));
+      setShortFilm(localStorage.getItem("shortFilmQuery"));
+    }
+  }, [])
+
+  console.log(shortFilm)
 
   function handleSubmitForm(e) {
     e.preventDefault();
@@ -20,6 +30,7 @@ function SearchForm({onSearching}) {
             className="search-form__input"
             type="text"
             placeholder="Фильм"
+            value={textRequest}
             onChange={e => setTextRequest((e.target.value))}
             required
           />
@@ -27,7 +38,11 @@ function SearchForm({onSearching}) {
         </div>
         <div className="search-form__filter-сheckbox-container">
           <label className="search-form__filter-сheckbox-label">
-            <input className="search-form__filter-сheckbox" type="checkbox" onChange={() => setShortFilm(!shortFilm)}></input>
+            {shortFilm ?
+              <input className="search-form__filter-сheckbox" checked={true} type="checkbox" onChange={() => setShortFilm(!shortFilm)}></input>
+              :
+              <input className="search-form__filter-сheckbox" checked={false} type="checkbox" onChange={() => setShortFilm(!shortFilm)}></input>
+            }
             <div className="search-form__filter-сheckbox-tumbler"></div>
             <div className="search-form__filter-сheckbox-checker"></div>
             Короткометражки

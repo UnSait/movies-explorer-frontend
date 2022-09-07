@@ -223,9 +223,13 @@ function App() {
     if (shortFilm) {
       setRequiredFilms(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration <= 40))
       localStorage.setItem("reqFilms", JSON.stringify(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration <= 40)))
+      localStorage.setItem("textQuery", textRequest);
+      localStorage.setItem("shortFilmQuery", shortFilm);
     } else {
       setRequiredFilms(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration > 40))
       localStorage.setItem("reqFilms", JSON.stringify(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration > 40)))
+      localStorage.setItem("textQuery", textRequest);
+      localStorage.setItem("shortFilmQuery", shortFilm);
     }
   };
 
@@ -322,7 +326,7 @@ function App() {
       <ProtectedRoute path="/movies" loggedIn={loggedIn}>
         <Overlay path={location.pathname} statusOverlay={isOverlayOpen} closeMenu={handleCloseOverlay} />
         <Header isLogined={loggedIn} path={location.pathname} openMenu={handleOpenOverlay}/>
-        <SearchForm onSearching={handlerSearchMovies}/>
+        <SearchForm onSearching={handlerSearchMovies} path={location.pathname}/>
         {notFound1 &&
            <h2 style={{
             color: 'red',
@@ -355,7 +359,7 @@ function App() {
       <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
         <Overlay path={location.pathname} statusOverlay={isOverlayOpen} closeMenu={handleCloseOverlay} />
         <Header isLogined={loggedIn} path={location.pathname} openMenu={handleOpenOverlay} />
-        <SearchForm onSearching={handlerSearchSavedMovies} />
+        <SearchForm onSearching={handlerSearchSavedMovies} path={location.pathname}/>
         {notFound2 &&
            <h2 style={{
             color: 'red',
