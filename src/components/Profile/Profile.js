@@ -40,7 +40,6 @@ function Profile({signout, onEdit, errorCode, handlerErrors}) {
 
   const nameHandler = (e) => {
     setName(e.target.value);
-    console.log(e.target.value)
     if (!regUser.test(String(e.target.value).toLowerCase())) {
       setNameError("Имя должно быть не менее 2 символов и не содержать спецсимволов");
       if (!e.target.value) {

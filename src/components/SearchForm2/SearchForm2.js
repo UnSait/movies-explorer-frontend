@@ -1,17 +1,11 @@
-import './SearchForm.css';
-import { useState, useEffect } from 'react';
+import '../SearchForm/SearchForm.css';
+import { useState } from 'react';
 
-function SearchForm({onSearching, path}) {
+function SearchForm2({onSearching}) {
 
   const [textRequest, setTextRequest] = useState("");
   const [shortFilm, setShortFilm] = useState(false);
 
-  useEffect(() => {
-    if (localStorage.getItem("reqFilms")) {
-      setTextRequest(localStorage.getItem("textQuery"));
-      setShortFilm(JSON.parse(localStorage.getItem("shortFilmQuery")));
-    }
-  }, [])
 
   function handleSubmitForm(e) {
     e.preventDefault();
@@ -34,11 +28,7 @@ function SearchForm({onSearching, path}) {
         </div>
         <div className="search-form__filter-сheckbox-container">
           <label className="search-form__filter-сheckbox-label">
-            {shortFilm ?
-              <input className="search-form__filter-сheckbox" checked={true} type="checkbox" onChange={() => setShortFilm(!shortFilm)}></input>
-              :
-              <input className="search-form__filter-сheckbox" checked={false} type="checkbox" onChange={() => setShortFilm(!shortFilm)}></input>
-            }
+            <input className="search-form__filter-сheckbox" type="checkbox" onChange={() => setShortFilm(!shortFilm)}></input>
             <div className="search-form__filter-сheckbox-tumbler"></div>
             <div className="search-form__filter-сheckbox-checker"></div>
             Короткометражки
@@ -51,4 +41,4 @@ function SearchForm({onSearching, path}) {
 
 }
 
-export default SearchForm;
+export default SearchForm2;

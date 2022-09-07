@@ -7,6 +7,7 @@ import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
+import SearchForm2 from '../SearchForm2/SearchForm2';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
@@ -15,6 +16,7 @@ import NotFound from '../NotFound/NotFound';
 import Overlay from '../Overlay/Overlay';
 import Preloader from '../Preloader/Preloader';
 
+import ProtectedAuthRoute from '../ProtectedAuthRoute/ProtectedAuthRoute';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import * as api from "../../utils/MainApi";
@@ -155,12 +157,18 @@ function App() {
         console.log("Не удалось выполнить:", err);
         ///Изменяем стейт кода ошибки
         setErrorCode(err);
+        setTimeout(() => {
+          setErrorCode("")
+        }, 3000);
       });
     })
     .catch((err) => {
       console.log("Не удалось выполнить:", err);
       ///Изменяем стейт кода ошибки
       setErrorCode(err);
+      setTimeout(() => {
+        setErrorCode("")
+      }, 3000);
     });
   }
 
@@ -183,6 +191,9 @@ function App() {
       console.log("Не удалось выполнить:", err);
       ///Изменяем стейт кода ошибки
       setErrorCode(err);
+      setTimeout(() => {
+        setErrorCode("")
+      }, 3000);
     });
   }
 
@@ -194,6 +205,17 @@ function App() {
     localStorage.removeItem('jwt');
     //Очищаем хранилище c результом поиска
     localStorage.removeItem('reqFilms');
+    //Очищаем хранилище текстом поиска
+    localStorage.removeItem('textQuery');
+    //Очищаем хранилище с состоянияем поиска
+    localStorage.removeItem('shortFilmQuery');
+    //Очищаем запрошенные пользователем фильм
+    setRequiredFilms([]);
+    setRequiredSavedFilms([]);
+    //Очищаем фильмы с beatfilm-movies
+    setFilms([]);
+    //Очищаем сохраненные фильмы
+    setSavedFilms([]);
     //Очищаем стейт токена
     setToken('');
     //Редиректим на общую страницу
@@ -208,13 +230,19 @@ function App() {
     .then((res) => {
       //Изменяем пользовательские данные
       setCurrentUser(res);
-      //Обнуляем код ошибки
-      setErrorCode("");
+      //Уведомление пользователя об успешном запросе
+      setErrorCode("200 OK");
+      setTimeout(() => {
+        setErrorCode("")
+      }, 3000);
     })
     .catch((err) => {
       console.log("Не удалось выполнить:", err);
       ///Изменяем стейт кода ошибки
       setErrorCode(err);
+      setTimeout(() => {
+        setErrorCode("")
+      }, 3000);
     });
   }
 
@@ -229,7 +257,7 @@ function App() {
       setRequiredFilms(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration > 40))
       localStorage.setItem("reqFilms", JSON.stringify(films.filter(movie => movie.nameRU.toLowerCase().includes(textRequest.toLowerCase()) && movie.duration > 40)))
       localStorage.setItem("textQuery", textRequest);
-      localStorage.setItem("shortFilmQuery", shortFilm);
+      localStorage.setItem("shortFilmQuery", JSON.stringify(shortFilm));
     }
   };
 
@@ -313,6 +341,8 @@ function App() {
       return "Переданы некорректные данные"
     } else if (error === "Ошибка 401") {
       return "Неправильные почта или пароль"
+    } else if (error === "200 OK") {
+      return "Успешно"
     } else {
       return "Непредвиденная ошибка"
     }
@@ -326,7 +356,7 @@ function App() {
       <ProtectedRoute path="/movies" loggedIn={loggedIn}>
         <Overlay path={location.pathname} statusOverlay={isOverlayOpen} closeMenu={handleCloseOverlay} />
         <Header isLogined={loggedIn} path={location.pathname} openMenu={handleOpenOverlay}/>
-        <SearchForm onSearching={handlerSearchMovies} path={location.pathname}/>
+        <SearchForm onSearching={handlerSearchMovies} />
         {notFound1 &&
            <h2 style={{
             color: 'red',
@@ -359,7 +389,7 @@ function App() {
       <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
         <Overlay path={location.pathname} statusOverlay={isOverlayOpen} closeMenu={handleCloseOverlay} />
         <Header isLogined={loggedIn} path={location.pathname} openMenu={handleOpenOverlay} />
-        <SearchForm onSearching={handlerSearchSavedMovies} path={location.pathname}/>
+        <SearchForm2 onSearching={handlerSearchSavedMovies} />
         {notFound2 &&
            <h2 style={{
             color: 'red',
@@ -395,13 +425,13 @@ function App() {
         <Profile signout={handlerSignoutProfile} onEdit={handlerEditProfile} errorCode={errorCode} handlerErrors={handlerErrors} />
       </ProtectedRoute>
 
-      <Route path="/signin">
+      <ProtectedAuthRoute path="/signin" loggedIn={loggedIn}>
         <Login onLogin={handlerSigninProfile} errorCode={errorCode} handlerErrors={handlerErrors}/>
-      </Route>
+      </ProtectedAuthRoute>
 
-      <Route path="/signup">
+      <ProtectedAuthRoute path="/signup" loggedIn={loggedIn}>
         <Register onRegister={handlerSignupProfile} errorCode={errorCode} handlerErrors={handlerErrors}/>
-      </Route>
+      </ProtectedAuthRoute>
 
       <Route exact path="/">
         <Overlay path={location.pathname} statusOverlay={isOverlayOpen} closeMenu={handleCloseOverlay} />
