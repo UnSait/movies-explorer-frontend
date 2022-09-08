@@ -83,6 +83,7 @@
 @media screen and (max-width: 768px) {
   .techs {
     width: 320px;
+    background: none;
   }
 
   .techs__title {

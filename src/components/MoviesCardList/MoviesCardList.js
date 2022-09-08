@@ -1,17 +1,23 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard'
-import { Movies } from '../../utils/MoviesList';
 
-function MoviesCardList({userId, path}) {
+function MoviesCardList({screen, quantity, setQuantity, films, savedFilms, path, save, deleteMovie}) {
 
-  const sevedMovies = Movies.filter(movie => movie.owner === userId);
-  const isMoviesPath = path === "movies";
-  const isSavedMoviesPath = path === "saved-movies";
+  const isMoviesPath = path === "/movies";
+  const isSavedMoviesPath = path === "/saved-movies";
 
-  let button;
+  function isLiked(id) {
+    const likedMovies = savedFilms.some((movie) => movie.movieId === id);
+    return likedMovies;
+  };
 
-  const excessMovies = Movies.length > 15;
-  const excessSevedMovies = sevedMovies.length > 15;
+  function moreMoviesBtn() {
+    if (screen === "isDesktop") {
+      setQuantity(quantity + 3);
+    } else if (screen === "isMobile" || screen === "isTabletPC") {
+      setQuantity(quantity + 2);
+    }
+  }
 
   return (
     <section className="movies-card-list">
@@ -19,30 +25,32 @@ function MoviesCardList({userId, path}) {
 
       {
       isMoviesPath &&
-      Movies.map((movies) => (
-        <MoviesCard movies={movies} path={path} userId={userId} key={movies.movieId}  />
+      films.slice(0, quantity).map((movies) => (
+        <MoviesCard movies={movies} path={path} save={save} liked={isLiked} deleteMovie={deleteMovie} key={movies.id}  />
         ))
       }
 
       {
       isSavedMoviesPath &&
-      sevedMovies.map((movies) => (
-        <MoviesCard movies={movies} path={path} key={movies.movieId} />
+      films.map((movies) => (
+        <MoviesCard movies={movies} path={path} save={save} liked={isLiked} deleteMovie={deleteMovie} key={movies._id}  />
         ))
       }
 
       </ul>
 
-      {
-        isMoviesPath && excessMovies &&
-        <button className="movies-card-list__btn">Еще</button>
+      {screen === "isDesktop" && films.length > 12 && films.length > quantity && isMoviesPath &&
+        <button className="movies-card-list__btn" onClick={moreMoviesBtn}>Еще</button>
       }
 
-
-      {
-        isSavedMoviesPath && excessSevedMovies &&
-        <button className="movies-card-list__btn">Еще</button>
+      {screen === "isTabletPC" && films.length > 8 && films.length > quantity && isMoviesPath &&
+        <button className="movies-card-list__btn" onClick={moreMoviesBtn}>Еще</button>
       }
+
+      {screen === "isMobile" && films.length > 5 && films.length > quantity && isMoviesPath &&
+        <button className="movies-card-list__btn" onClick={moreMoviesBtn}>Еще</button>
+      }
+
     </section>
   );
 

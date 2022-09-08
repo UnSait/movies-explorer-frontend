@@ -85,6 +85,15 @@
   opacity: 0.2;
 }
 
+.search-form__btn:disabled {
+  cursor: not-allowed;
+  background: gray;
+}
+
+.search-form__btn:disabled:hover {
+  opacity: 1;
+}
+
 @media screen and (max-width: 1280px) {
   .search-form__input-container {
     width: 705px;
